@@ -1,0 +1,78 @@
+{
+  "manifest_version": 3,
+  "name": "Kontor for LinkedIn",
+  "version": "0.4.0",
+  "description": "Connects your LinkedIn session in Chrome to Kontor for approved outreach and context.",
+  "homepage_url": "https://getkontor.eu/support-software",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage", "tabs", "scripting", "cookies", "windows"],
+  "action": {
+    "default_title": "Kontor for LinkedIn",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*",
+    "https://localhost:3000/*",
+    "https://techlads.eu/*",
+    "https://www.techlads.eu/*",
+    "https://test.techlads.eu/*",
+    "http://localhost:3001/*",
+    "https://getkontor.eu/*",
+    "https://www.getkontor.eu/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": [
+        "content/linkedin-extractor.js",
+        "content/linkedin-connections-scan.js",
+        "content/linkedin-page.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "http://localhost:3000/*",
+        "http://127.0.0.1:3000/*",
+        "https://localhost:3000/*",
+        "https://techlads.eu/*",
+        "https://www.techlads.eu/*",
+        "https://test.techlads.eu/*",
+        "http://localhost:3001/*",
+        "https://getkontor.eu/*",
+        "https://www.getkontor.eu/*"
+      ],
+      "js": ["content/admin-bridge-relay.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:3000/*",
+      "http://127.0.0.1:3000/*",
+      "https://localhost:3000/*",
+      "https://techlads.eu/*",
+      "https://www.techlads.eu/*",
+      "https://test.techlads.eu/*",
+      "http://localhost:3001/*",
+      "https://getkontor.eu/*",
+      "https://www.getkontor.eu/*"
+    ]
+  }
+}
